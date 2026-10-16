@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <StartupObject>PingGrapher.Program</StartupObject>
+    
+    <!-- Assembly Information - Disable auto-generation to use custom AssemblyInfo.cs -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    
+    <!-- Additional metadata for project -->
+    <AssemblyTitle>PingGrapher</AssemblyTitle>
+    <AssemblyDescription>Multi-Host Network Ping Monitoring Tool with Real-time Graphical Display</AssemblyDescription>
+    <AssemblyCompany>PingGrapher Development</AssemblyCompany>
+    <AssemblyProduct>PingGrapher Network Monitor</AssemblyProduct>
+    <AssemblyCopyright>© 2024 PingGrapher Development. All rights reserved.</AssemblyCopyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\icon.ico">
+      <LogicalName>icon.ico</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+  </ItemGroup>
+
+</Project>
