@@ -1,57 +1,57 @@
 # PingGrapher
 
-A small Windows tool that pings several hosts at once and graphs their latency in real time.
+Pings a bunch of hosts at the same time and draws the latency as a live graph. I wrote it because I was tired of running five `ping -t` windows side by side to figure out whether the problem was the Wi-Fi, the router, the ISP or the server.
 
-By default it pings your **gateway**, your **primary DNS server** and **Google DNS (8.8.8.8)**, plus any IPs or hostnames you enter (comma separated).
+Out of the box it pings your gateway, your DNS server and 8.8.8.8. Anything else you type into the box (IPs or hostnames, comma separated) gets added on top.
 
-## Features
+## Usage
 
-- Live latency graph per host, with timeouts shown as red ✕ markers and gaps in the line
-- Statistics per host: last, average, min, max and jitter over the visible window, plus packet loss over the whole session
-- Hover over the graph to see the exact time and values at that point
-- Export the graph as PNG/JPEG/BMP, or the raw data as CSV
-- Optional continuous logging of every ping to a CSV file
-- Hostnames are re-resolved every 5 minutes
+Start it, hit Start. Hover over the graph to see the exact values at a point in time. Timeouts show up as red crosses at the top of the graph.
 
-## Requirements
+The panel at the bottom shows last/avg/min/max/jitter for what's currently on screen (last hour by default) and packet loss since you pressed Start.
 
-Windows with .NET Framework 4.8.
+Download saves the graph as an image, or all the raw data as CSV if you pick that file type.
 
-## Command line
+### Command line
 
 ```
-PingGrapher.exe [options] [host1 host2 ...]
+PingGrapher.exe [options] [hosts...]
 ```
 
-If any host is given, pinging starts automatically.
-
-| Option          | Description                                         |
-|-----------------|-----------------------------------------------------|
-| `-i <ms>`       | Ping interval (100-60000, default 1000)             |
-| `-t <ms>`       | Ping timeout (100-30000, default 5000)              |
-| `-w <seconds>`  | Visible history window (10-86400, default 3600)     |
-| `-log <file>`   | Append every ping result to a CSV file              |
-| `-nogoogle`     | Don't add Google DNS (8.8.8.8) automatically        |
-| `-h`, `-?`      | Show help                                           |
-
-Examples:
+If you pass any hosts it starts pinging right away.
 
 ```
-PingGrapher.exe google.com 1.1.1.1
-PingGrapher.exe -i 500 -t 2000 -log C:\Temp\ping.csv myserver.local
+-i <ms>       interval between rounds, default 1000
+-t <ms>       timeout, default 5000
+-w <sec>      how much history the graph shows, default 3600
+-log <file>   append every ping to a CSV file
+-nogoogle     don't add 8.8.8.8
 ```
 
-If a round is still waiting for a timed-out host, the next round starts once it finishes, so during outages fewer samples are taken (like `ping.exe`).
+For example, to leave it running overnight and check the log in the morning:
 
-## CSV formats
+```
+PingGrapher.exe -t 2000 -log C:\Temp\ping.csv myserver.local
+```
 
-- **Export (Download → CSV):** one row per round, one column per host; an empty cell means timeout/error.
-- **Log (`-log`):** one row per ping: `Timestamp,Target,Host,IP,LatencyMs,Status`.
+A new round only starts once the previous one is done, same as `ping.exe`. So if a host is down, you get one sample per timeout instead of one per second. Lower `-t` if you care about that.
 
-Both use `,` as separator. In Excel with a European locale, use *Data → From Text/CSV* to import.
+### CSV files
+
+The export has one row per round and one column per host. Empty cell = timeout. The log file (`-log`) has one row per ping with the status, which is easier to filter.
+
+Both are comma separated. If you have Excel set to a European locale it'll open everything in one column; use Data > From Text/CSV instead.
 
 ## Building
+
+Needs .NET Framework 4.8 (already on any recent Windows) and the .NET SDK to build.
 
 ```
 dotnet build -c Release
 ```
+
+The exe ends up in `bin\Release\net48\`.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
