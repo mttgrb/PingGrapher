@@ -4,6 +4,10 @@ Pings a bunch of hosts at the same time and draws the latency as a live graph. I
 
 Out of the box it pings your gateway, your DNS server and 8.8.8.8. Anything else you type into the box (IPs or hostnames, comma separated) gets added on top.
 
+## Download
+
+Grab `PingGrapher.exe` from the [latest release](https://github.com/mttgrb/PingGrapher/releases/latest). It's a single exe, no installer.
+
 ## Usage
 
 Start it, hit Start. Hover over the graph to see the exact values at a point in time. Timeouts show up as red crosses at the top of the graph.
